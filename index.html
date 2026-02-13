@@ -1,0 +1,1477 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="icon" href="img/rsbn.png" />
+  <title>Venta de Programas y Servicios Técnicos</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: #1f2933;
+      min-height: 100vh;
+    }
+
+    header {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      padding: 50px 20px;
+      text-align: center;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+      animation: slideDown 0.8s ease;
+    }
+
+    @keyframes slideDown {
+      from {
+        transform: translateY(-30px);
+        opacity: 0;
+      }
+      to {
+        transform: translateY(0);
+        opacity: 1;
+      }
+    }
+
+    header h1 {
+      margin: 0 0 10px 0;
+      font-size: clamp(1.8rem, 5vw, 2.5rem);
+      font-weight: 700;
+      text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+    }
+
+    header p {
+      margin: 0;
+      font-size: clamp(0.85rem, 2.5vw, 1.1rem);
+      opacity: 0.95;
+      font-weight: 300;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: auto;
+      padding: clamp(15px, 5vw, 50px) clamp(10px, 4vw, 20px);
+    }
+
+    .carousel-section {
+      margin-bottom: 50px;
+    }
+
+    .carousel-title {
+      text-align: center;
+      font-size: clamp(1.3rem, 4vw, 2rem);
+      color: white;
+      margin-bottom: 40px;
+      font-weight: 700;
+      text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+    }
+
+    .service-windows {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(clamp(100px, 20vw, 150px), 1fr));
+      gap: clamp(12px, 2vw, 20px);
+      margin-bottom: 40px;
+    }
+
+    .service-window {
+      background: white;
+      border: 3px solid transparent;
+      border-radius: 16px;
+      padding: clamp(12px, 3vw, 25px) clamp(8px, 2vw, 15px);
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+      box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: clamp(80px, 15vw, 130px);
+    }
+
+    .service-window-icon {
+      font-size: 2.5rem;
+      margin-bottom: 10px;
+      display: block;
+    }
+
+    .service-window::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+      transition: left 0.6s ease;
+    }
+
+    .service-window:hover::before {
+      left: 100%;
+    }
+
+    .service-window:hover {
+      transform: translateY(-12px) scale(1.05);
+      box-shadow: 0 15px 40px rgba(102, 126, 234, 0.4);
+      border-color: #667eea;
+    }
+
+    .service-window.active {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      border-color: #667eea;
+      box-shadow: 0 15px 40px rgba(102, 126, 234, 0.5);
+      transform: scale(1.05);
+    }
+
+    .service-window h4 {
+      margin: 0;
+      font-size: clamp(0.65rem, 2vw, 0.95rem);
+      font-weight: 600;
+      line-height: 1.4;
+    }
+
+    .carousel-wrapper {
+      position: relative;
+      background: white;
+      border-radius: 20px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.15);
+      padding: clamp(18px, 5vw, 45px);
+      overflow: hidden;
+      min-height: clamp(300px, 60vw, 400px);
+      animation: fadeIn 0.8s ease;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .carousel-container {
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+    }
+
+    .carousel-item {
+      width: 100%;
+      max-width: 700px;
+      opacity: 0;
+      transition: opacity 0.6s ease-in-out;
+      pointer-events: none;
+      display: none;
+    }
+
+    .carousel-item.active {
+      opacity: 1;
+      pointer-events: auto;
+      display: block;
+      animation: fadeIn 0.6s ease;
+    }
+
+    .carousel-item h3 {
+      margin: 0 0 15px 0;
+      color: #667eea;
+      font-size: clamp(1.2rem, 4vw, 1.8rem);
+      font-weight: 700;
+    }
+
+    .service-image {
+      font-size: clamp(3rem, 8vw, 4.5rem);
+      margin-bottom: 20px;
+      display: block;
+      animation: bounce 2s infinite;
+    }
+
+
+    @keyframes bounce {
+      0%, 100% {
+        transform: translateY(0);
+      }
+      50% {
+        transform: translateY(-10px);
+      }
+    }
+
+    .carousel-item p {
+      margin: 0 0 25px 0;
+      font-size: clamp(0.85rem, 2.5vw, 1.05rem);
+      line-height: 1.7;
+      color: #555;
+      font-weight: 400;
+    }
+
+    .specifications {
+      background: linear-gradient(135deg, #667eea15 0%, #764ba215 100%);
+      padding: clamp(15px, 3vw, 28px);
+      border-radius: 14px;
+      margin-top: 25px;
+      border-left: 5px solid #667eea;
+    }
+
+    .specifications h4 {
+      margin: 0 0 18px 0;
+      color: #667eea;
+      font-size: clamp(1rem, 2.5vw, 1.2rem);
+      font-weight: 600;
+    }
+
+    .specifications ul {
+      margin: 0;
+      padding-left: 22px;
+    }
+
+    .specifications li {
+      margin: 12px 0;
+      line-height: 1.7;
+      color: #333;
+      font-weight: 500;
+      font-size: clamp(0.8rem, 2vw, 1rem);
+    }
+
+    .cta {
+      margin-top: 60px;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      padding: clamp(20px, 5vw, 50px) clamp(15px, 4vw, 30px);
+      border-radius: 20px;
+      text-align: center;
+      box-shadow: 0 15px 50px rgba(102, 126, 234, 0.4);
+    }
+
+    .cta h2 {
+      margin-top: 0;
+      font-size: clamp(1.3rem, 4vw, 2rem);
+      font-weight: 700;
+      margin-bottom: 20px;
+    }
+
+    .cta a {
+      display: inline-block;
+      margin-top: 20px;
+      padding: clamp(10px, 2vw, 16px) clamp(20px, 4vw, 32px);
+      background: linear-gradient(135deg, #25D366 0%, #1db854 100%);
+      color: white;
+      text-decoration: none;
+      border-radius: 50px;
+      font-weight: 700;
+      font-size: clamp(0.9rem, 2vw, 1.05rem);
+      transition: all 0.3s ease;
+      box-shadow: 0 8px 20px rgba(37, 211, 102, 0.3);
+      border: none;
+      cursor: pointer;
+    }
+
+    .cta a:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 12px 30px rgba(37, 211, 102, 0.5);
+      background: linear-gradient(135deg, #1db854 0%, #15a844 100%);
+    }
+
+    .cta-content {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 30px;
+      flex-wrap: wrap;
+    }
+
+    .cta-text {
+      flex: 1;
+      min-width: 250px;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .cta-text p {
+      font-size: clamp(0.85rem, 2.5vw, 1.1rem);
+      margin-bottom: 15px;
+      font-weight: 500;
+    }
+
+    .cta-qr {
+      flex: 0 0 auto;
+    }
+
+    .cta-qr img {
+      width: clamp(150px, 40vw, 250px);
+      height: clamp(150px, 40vw, 250px);
+      border-radius: 12px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+      border: 4px solid white;
+    }
+
+    footer {
+      margin-top: 60px;
+      padding: clamp(12px, 2vw, 25px);
+      text-align: center;
+      font-size: clamp(0.75rem, 2vw, 0.9rem);
+      color: rgba(255, 255, 255, 0.8);
+      font-weight: 500;
+    }
+
+    /* RESPONSIVE - TABLETS Y PANTALLAS MEDIAS */
+    @media (max-width: 768px) {
+      header h1 {
+        font-size: clamp(1.6rem, 4vw, 1.9rem);
+      }
+      header p {
+        font-size: clamp(0.8rem, 2vw, 0.95rem);
+      }
+      .container {
+        padding: clamp(20px, 4vw, 30px) clamp(10px, 3vw, 15px);
+      }
+      .carousel-title {
+        font-size: clamp(1.2rem, 3.5vw, 1.6rem);
+        margin-bottom: 25px;
+      }
+      .service-windows {
+        grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+        gap: clamp(10px, 1.5vw, 15px);
+      }
+      .service-window {
+        padding: clamp(15px, 2.5vw, 20px) clamp(8px, 1.5vw, 12px);
+        min-height: clamp(75px, 12vw, 110px);
+      }
+      .service-window h4 {
+        font-size: clamp(0.7rem, 1.8vw, 0.85rem);
+      }
+      .carousel-wrapper {
+        padding: clamp(15px, 3vw, 30px);
+        min-height: clamp(280px, 50vw, 350px);
+      }
+      .carousel-item h3 {
+        font-size: clamp(1.1rem, 3vw, 1.4rem);
+      }
+      .carousel-item p {
+        font-size: clamp(0.8rem, 2vw, 0.95rem);
+      }
+      .specifications {
+        padding: clamp(12px, 2.5vw, 20px);
+      }
+      .specifications h4 {
+        font-size: clamp(0.95rem, 2vw, 1.05rem);
+      }
+      .specifications li {
+        font-size: clamp(0.75rem, 1.8vw, 0.9rem);
+        margin: 6px 0;
+      }
+      .cta {
+        padding: clamp(20px, 4vw, 35px) clamp(15px, 3vw, 20px);
+      }
+      .cta h2 {
+        font-size: clamp(1.2rem, 3vw, 1.6rem);
+      }
+      .cta-content {
+        flex-direction: column;
+      }
+      .cta-qr img {
+        width: clamp(150px, 35vw, 200px);
+        height: clamp(150px, 35vw, 200px);
+        margin-top: 15px;
+      }
+      .cta a {
+        padding: clamp(10px, 2vw, 12px) clamp(20px, 3vw, 24px);
+        font-size: clamp(0.85rem, 1.8vw, 0.95rem);
+      }
+    }
+
+    /* RESPONSIVE - SMARTPHONES */
+    @media (max-width: 480px) {
+      header {
+        padding: clamp(20px, 3vw, 30px) clamp(10px, 2vw, 15px);
+      }
+      header h1 {
+        font-size: clamp(1.4rem, 3.5vw, 1.6rem);
+        margin-bottom: 8px;
+      }
+      header p {
+        font-size: clamp(0.75rem, 1.8vw, 0.85rem);
+      }
+      .container {
+        padding: clamp(15px, 3vw, 20px) clamp(8px, 2vw, 10px);
+      }
+      .carousel-section {
+        margin-bottom: 25px;
+      }
+      .carousel-title {
+        font-size: clamp(1.1rem, 3vw, 1.3rem);
+        margin-bottom: 15px;
+      }
+      .service-windows {
+        grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+        gap: clamp(8px, 1.5vw, 12px);
+      }
+      .service-window {
+        padding: clamp(10px, 2vw, 15px) clamp(6px, 1vw, 8px);
+        min-height: clamp(70px, 11vw, 100px);
+        border-radius: 10px;
+      }
+      .service-window h4 {
+        font-size: clamp(0.6rem, 1.5vw, 0.75rem);
+        line-height: 1.2;
+      }
+      .carousel-wrapper {
+        padding: clamp(12px, 2.5vw, 18px);
+        min-height: clamp(250px, 45vw, 300px);
+        border-radius: 14px;
+      }
+      .carousel-item h3 {
+        font-size: clamp(1rem, 2.8vw, 1.2rem);
+        margin-bottom: 10px;
+      }
+      .carousel-item p {
+        font-size: clamp(0.75rem, 1.8vw, 0.9rem);
+        margin-bottom: 12px;
+      }
+      .specifications {
+        padding: clamp(10px, 2vw, 15px);
+        border-left-width: 3px;
+      }
+      .specifications h4 {
+        font-size: clamp(0.85rem, 1.6vw, 1rem);
+        margin-bottom: 10px;
+      }
+      .specifications ul {
+        padding-left: 16px;
+      }
+      .specifications li {
+        font-size: clamp(0.7rem, 1.5vw, 0.85rem);
+        margin: 5px 0;
+        line-height: 1.3;
+        font-weight: 400;
+      }
+      .cta {
+        padding: clamp(18px, 3vw, 25px) clamp(12px, 2vw, 15px);
+        margin-top: 20px;
+      }
+      .cta h2 {
+        font-size: clamp(1.1rem, 2.8vw, 1.4rem);
+        margin-bottom: 12px;
+      }
+      .cta a {
+        padding: clamp(8px, 1.5vw, 12px) clamp(16px, 2.5vw, 24px);
+        font-size: clamp(0.8rem, 1.6vw, 0.95rem);
+        margin-top: 10px;
+      }
+      .cta-text p {
+        font-size: clamp(0.75rem, 1.8vw, 0.9rem);
+        margin-bottom: 10px;
+      }
+      .cta-qr img {
+        width: clamp(130px, 30vw, 160px);
+        height: clamp(130px, 30vw, 160px);
+        margin-top: 10px;
+      }
+      footer {
+        margin-top: 20px;
+        padding: clamp(10px, 2vw, 15px);
+        font-size: clamp(0.7rem, 1.5vw, 0.8rem);
+      }
+    }
+
+    /* RESPONSIVE - TINY SCREENS (max-width: 360px) */
+    @media (max-width: 360px) {
+      header {
+        padding: clamp(15px, 2vw, 25px) clamp(8px, 1.5vw, 12px);
+      }
+      header h1 {
+        font-size: clamp(1.2rem, 3vw, 1.5rem);
+        margin-bottom: 6px;
+      }
+      header p {
+        font-size: clamp(0.7rem, 1.5vw, 0.8rem);
+      }
+      .container {
+        padding: clamp(12px, 2.5vw, 18px) clamp(8px, 1.5vw, 10px);
+      }
+      .carousel-section {
+        margin-bottom: 20px;
+      }
+      .carousel-title {
+        font-size: clamp(1rem, 2.8vw, 1.2rem);
+        margin-bottom: 12px;
+      }
+      .service-windows {
+        grid-template-columns: repeat(2, 1fr);
+        gap: clamp(6px, 1vw, 10px);
+      }
+      .service-window {
+        padding: clamp(8px, 1.5vw, 12px) clamp(5px, 0.8vw, 7px);
+        min-height: clamp(60px, 10vw, 85px);
+        border-radius: 9px;
+      }
+      .service-window-icon {
+        font-size: clamp(1.5rem, 4vw, 2rem);
+        margin-bottom: 5px;
+      }
+      .service-window h4 {
+        font-size: clamp(0.55rem, 1.2vw, 0.65rem);
+        line-height: 1.1;
+        font-weight: 500;
+      }
+      .carousel-wrapper {
+        padding: clamp(10px, 2vw, 15px);
+        min-height: clamp(220px, 40vw, 280px);
+        border-radius: 12px;
+      }
+      .carousel-item h3 {
+        font-size: clamp(0.9rem, 2.5vw, 1.1rem);
+        margin-bottom: 8px;
+      }
+      .service-image {
+        font-size: clamp(2.5rem, 6vw, 3.5rem);
+        margin-bottom: 12px;
+      }
+      .carousel-item p {
+        font-size: clamp(0.7rem, 1.5vw, 0.8rem);
+        margin-bottom: 10px;
+        line-height: 1.5;
+      }
+      .specifications {
+        padding: clamp(8px, 1.5vw, 12px);
+        border-left-width: 3px;
+        margin-top: 12px;
+      }
+      .specifications h4 {
+        font-size: clamp(0.75rem, 1.5vw, 0.9rem);
+        margin-bottom: 8px;
+      }
+      .specifications ul {
+        padding-left: 14px;
+        margin: 0;
+      }
+      .specifications li {
+        font-size: clamp(0.65rem, 1.2vw, 0.75rem);
+        margin: 4px 0;
+        line-height: 1.25;
+        font-weight: 400;
+      }
+      .cta {
+        padding: clamp(15px, 2.5vw, 20px) clamp(10px, 1.5vw, 12px);
+        margin-top: 18px;
+      }
+      .cta h2 {
+        font-size: clamp(1rem, 2.5vw, 1.2rem);
+        margin-bottom: 10px;
+      }
+      .cta a {
+        padding: clamp(7px, 1.2vw, 10px) clamp(14px, 2vw, 20px);
+        font-size: clamp(0.75rem, 1.4vw, 0.85rem);
+        margin-top: 6px;
+      }
+      .cta-text p {
+        font-size: clamp(0.7rem, 1.5vw, 0.8rem);
+        margin-bottom: 8px;
+      }
+      .cta-qr img {
+        width: clamp(110px, 25vw, 140px);
+        height: clamp(110px, 25vw, 140px);
+        margin-top: 8px;
+        border-width: 3px;
+      }
+      footer {
+        margin-top: 15px;
+        padding: clamp(8px, 1.5vw, 12px);
+        font-size: clamp(0.65rem, 1.2vw, 0.75rem);
+      }
+    }
+
+    /* RESPONSIVE - ULTRA TINY SCREENS (max-width: 280px) */
+    @media (max-width: 280px) {
+      body {
+        font-size: clamp(0.7rem, 2vw, 0.85rem);
+      }
+      header {
+        padding: clamp(10px, 1.5vw, 15px) clamp(6px, 1vw, 8px);
+      }
+      header h1 {
+        font-size: clamp(1rem, 2.5vw, 1.2rem);
+        margin-bottom: 4px;
+      }
+      header p {
+        font-size: clamp(0.65rem, 1.2vw, 0.75rem);
+      }
+      .container {
+        padding: clamp(10px, 2vw, 15px) clamp(6px, 1vw, 8px);
+      }
+      .carousel-section {
+        margin-bottom: 15px;
+      }
+      .carousel-title {
+        font-size: clamp(0.9rem, 2.3vw, 1rem);
+        margin-bottom: 10px;
+      }
+      .service-windows {
+        grid-template-columns: repeat(2, 1fr);
+        gap: clamp(5px, 0.8vw, 8px);
+      }
+      .service-window {
+        padding: clamp(6px, 1.2vw, 10px) clamp(4px, 0.7vw, 6px);
+        min-height: clamp(50px, 9vw, 70px);
+        border-radius: 8px;
+        border-width: 2px;
+      }
+      .service-window-icon {
+        font-size: clamp(1.2rem, 3vw, 1.6rem);
+        margin-bottom: 3px;
+      }
+      .service-window h4 {
+        font-size: clamp(0.5rem, 1rem, 0.6rem);
+        line-height: 1;
+        font-weight: 500;
+      }
+      .carousel-wrapper {
+        padding: clamp(8px, 1.5vw, 12px);
+        min-height: clamp(200px, 38vw, 250px);
+        border-radius: 10px;
+      }
+      .carousel-item h3 {
+        font-size: clamp(0.8rem, 2.2vw, 0.95rem);
+        margin-bottom: 6px;
+      }
+      .service-image {
+        font-size: clamp(2rem, 5vw, 3rem);
+        margin-bottom: 10px;
+      }
+      .carousel-item p {
+        font-size: clamp(0.65rem, 1.3vw, 0.75rem);
+        margin-bottom: 8px;
+        line-height: 1.4;
+      }
+      .specifications {
+        padding: clamp(6px, 1.2vw, 10px);
+        border-left-width: 2px;
+        margin-top: 8px;
+      }
+      .specifications h4 {
+        font-size: clamp(0.65rem, 1.2vw, 0.8rem);
+        margin-bottom: 6px;
+      }
+      .specifications ul {
+        padding-left: 12px;
+        margin: 0;
+      }
+      .specifications li {
+        font-size: clamp(0.6rem, 1.2vw, 0.7rem);
+        margin: 3px 0;
+        line-height: 1.2;
+        font-weight: 400;
+      }
+      .cta {
+        padding: clamp(12px, 2vw, 18px) clamp(8px, 1.2vw, 10px);
+        margin-top: 15px;
+      }
+      .cta h2 {
+        font-size: clamp(0.9rem, 2.2vw, 1.1rem);
+        margin-bottom: 8px;
+      }
+      .cta a {
+        padding: clamp(6px, 1vw, 8px) clamp(12px, 1.5vw, 16px);
+        font-size: clamp(0.65rem, 1.2vw, 0.75rem);
+        margin-top: 6px;
+      }
+      .cta-text p {
+        font-size: clamp(0.65rem, 1.3vw, 0.75rem);
+        margin-bottom: 6px;
+      }
+      .cta-qr img {
+        width: clamp(90px, 20vw, 110px);
+        height: clamp(90px, 20vw, 110px);
+        margin-top: 6px;
+        border-width: 2px;
+      }
+      footer {
+        margin-top: 10px;
+        padding: clamp(6px, 1vw, 10px);
+        font-size: clamp(0.6rem, 1.2vw, 0.7rem);
+      }
+    }
+
+    /* RESPONSIVE - WATCH / VERY TINY SCREENS (max-width: 240px) */
+    @media (max-width: 240px) {
+      body {
+        font-size: clamp(0.6rem, 1.8vw, 0.75rem);
+      }
+      header h1 {
+        font-size: clamp(0.9rem, 3vw, 1.1rem);
+      }
+      .carousel-title {
+        font-size: clamp(0.8rem, 2.5vw, 0.95rem);
+      }
+      .service-windows {
+        grid-template-columns: repeat(1, 1fr);
+        gap: 6px;
+      }
+      .service-window {
+        padding: 6px 6px;
+        min-height: 48px;
+        border-radius: 6px;
+        font-size: 0.65rem;
+      }
+      .service-window-icon {
+        font-size: 1.1rem;
+        margin-bottom: 2px;
+      }
+      .service-window h4 {
+        font-size: 0.55rem;
+      }
+      .carousel-wrapper {
+        padding: 6px;
+        min-height: 160px;
+      }
+      .carousel-item h3 {
+        font-size: 0.85rem;
+      }
+      .carousel-item p,
+      .specifications li {
+        display: none; /* ocultar detalles para pantallas de reloj */
+      }
+      .cta { display: none; }
+      footer { display: none; }
+    }
+
+    /* LARGE SCREENS - LAPTOPS / DESKTOPS */
+    @media (min-width: 1200px) {
+      .container {
+        max-width: 1400px;
+        padding: 60px 30px;
+      }
+      .carousel-title { font-size: clamp(2rem, 2.5vw, 2.6rem); }
+      .service-windows {
+        grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+        gap: 28px;
+      }
+      .service-window { padding: 30px 18px; }
+      .carousel-wrapper { padding: 60px; min-height: 420px; }
+      .carousel-item h3 { font-size: 2rem; }
+    }
+    /* BOTÓN CATÁLOGO */
+.catalog-btn {
+  margin-top: 25px;
+  padding: 14px 30px;
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  color: white;
+  border: none;
+  border-radius: 50px;
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  display: inline-block;
+  box-shadow: 0 10px 25px rgba(102,126,234,0.4);
+  transition: all 0.3s ease;
+}
+
+.catalog-btn:hover {
+  transform: translateY(-4px) scale(1.05);
+  box-shadow: 0 15px 35px rgba(102,126,234,0.6);
+}
+
+/* ===== CATÁLOGO MODAL ===== */
+
+.catalog-btn {
+  margin-top: 25px;
+  padding: 14px 30px;
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  color: white;
+  border: none;
+  border-radius: 50px;
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 10px 25px rgba(102,126,234,0.4);
+  transition: all 0.3s ease;
+}
+
+.catalog-btn:hover {
+  transform: translateY(-4px) scale(1.05);
+}
+
+/* Fondo modal */
+.catalog-modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.65);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+  z-index: 9999;
+}
+
+.catalog-modal.active {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* Ventana */
+.catalog-content {
+  background: white;
+  width: 92%;
+  max-width: 550px;
+  padding: 25px;
+  border-radius: 20px;
+  position: relative;
+}
+
+/* Cerrar */
+.close-btn {
+  position: absolute;
+  top: 15px;
+  right: 18px;
+  font-size: 1.3rem;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+/* Botones */
+.catalog-nav {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin: 20px 0;
+}
+
+.catalog-nav button {
+  padding: 10px 18px;
+  border: none;
+  border-radius: 12px;
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+/* Secciones */
+.catalog-section {
+  display: none;
+}
+
+.catalog-section.active {
+  display: block;
+}
+
+.catalog-section h3 {
+  color: #667eea;
+  margin-bottom: 10px;
+}
+
+.catalog-section ul {
+  padding-left: 20px;
+}
+
+.catalog-section li {
+  margin: 6px 0;
+}
+/* ===== ANIMACIONES CATÁLOGO ===== */
+
+.catalog-section {
+  display: none;
+  animation: fadeSlide 0.4s ease;
+}
+
+.catalog-section.active {
+  display: block;
+}
+
+@keyframes fadeSlide {
+  from {
+    opacity: 0;
+    transform: translateY(15px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* BOTÓN ACTIVO */
+.catalog-nav button.active {
+  background: linear-gradient(135deg, #25D366, #1db854);
+  box-shadow: 0 6px 18px rgba(37,211,102,0.5);
+  transform: scale(1.05);
+}
+/* ===== RESPONSIVE CATÁLOGO ===== */
+
+/* Ventana base */
+.catalog-content {
+  width: 90%;
+  max-width: 560px;
+  max-height: 85vh;
+  overflow-y: auto;
+}
+
+/* Botones siempre acomodados */
+.catalog-nav {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
+  gap: 10px;
+}
+
+/* Lista más visual */
+.catalog-section ul {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 8px;
+}
+
+.catalog-section li {
+  background: #f3f4f6;
+  padding: 8px 10px;
+  border-radius: 8px;
+  font-weight: 500;
+}
+
+/* ===== TABLETS ===== */
+@media (max-width: 768px) {
+  .catalog-content {
+    max-width: 90%;
+    padding: 20px;
+  }
+
+  .catalog-section ul {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* ===== CATÁLOGO LIMPIO EN CELULAR ===== */
+@media (max-width: 480px) {
+
+  /* 2 botones por fila */
+  .catalog-nav {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+    margin-bottom: 18px;
+  }
+
+  .catalog-nav button {
+    padding: 14px 10px;
+    font-size: 0.95rem;
+    border-radius: 14px;
+  }
+
+  /* Título categoría */
+  .catalog-section h3 {
+    text-align: center;
+    font-size: 1.05rem;
+    margin: 10px 0 8px;
+  }
+
+  /* LISTA SIMPLE (NO CUADROS) */
+  .catalog-section ul {
+    padding-left: 18px;
+    display: block;
+  }
+
+  .catalog-section li {
+    list-style: disc;
+    background: none;
+    padding: 2px 0;
+    margin: 4px 0;
+    font-size: 0.9rem;
+    border-radius: 0;
+  }
+}
+.modal {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+}
+
+.modal-content {
+  background: #fff;
+  width: 90%;
+  max-width: 700px;
+  max-height: 80vh;
+  overflow-y: auto;
+  padding: 25px;
+  border-radius: 18px;
+  animation: fadeIn 0.3s ease;
+}
+
+.modal-content h2 {
+  margin-top: 0;
+}
+
+.modal-content h3 {
+  margin-top: 20px;
+}
+
+.close {
+  float: right;
+  font-size: 26px;
+  cursor: pointer;
+}
+
+.terms-btn {
+  background: none;
+  border: none;
+  color: #4f6df5;
+  cursor: pointer;
+  font-size: 14px;
+  text-decoration: underline;
+}
+
+@keyframes fadeIn {
+  from { transform: scale(0.95); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+  </style>
+</head>
+<body>
+<!-- ===== MODAL CATÁLOGO ===== -->
+<div id="catalogModal" class="catalog-modal">
+  <div class="catalog-content">
+    <span class="close-btn" onclick="closeCatalog()">✖</span>
+
+    <h2 style="text-align:center;">📂 Catálogo de Programas</h2>
+
+    <div class="catalog-nav">
+      <button onclick="showCatalog('adobe')">Adobe</button>
+      <button onclick="showCatalog('autodesk')">Autodesk</button>
+      <button onclick="showCatalog('topaz')">Topaz</button>
+      <button onclick="showCatalog('office')">Office</button>
+      <button onclick="showCatalog('otros')">Otros</button>
+    </div>
+
+    <div id="adobe" class="catalog-section active">
+      <h3>Adobe</h3>
+      <ul>
+        <li>Photoshop</li>
+        <li>Illustrator</li>
+        <li>Premiere Pro</li>
+        <li>After Effects</li>
+        <li>Audition</li>
+        <li>Animate</li>
+        <li>InDesign</li>
+        <li>Lightroom Classic</li>
+        <li>Media Encoder</li>
+        <li>Acrobat Pro DC</li>
+        <li>Bridge</li>
+        <li>XD</li>
+      </ul>
+    </div>
+
+    <div id="autodesk" class="catalog-section">
+      <h3>Autodesk</h3>
+      <ul>
+        <li>AutoCAD 2024</li>
+        <li>Maya 3D 2025</li>
+      </ul>
+    </div>
+
+    <div id="topaz" class="catalog-section">
+      <h3>Topaz (sin IA)</h3>
+      <ul>
+        <li>Adjust</li>
+        <li>DeNoise</li>
+        <li>Gigapixel</li>
+        <li>Sharpen</li>
+        <li>Studio</li>
+      </ul>
+    </div>
+
+    <div id="office" class="catalog-section">
+      <h3>Microsoft Office</h3>
+      <ul>
+        <li>Word</li>
+        <li>Excel</li>
+        <li>PowerPoint</li>
+        <li>Outlook</li>
+        <li>Access</li>
+      </ul>
+    </div>
+
+    <div id="otros" class="catalog-section">
+      <h3>Otros Programas</h3>
+      <ul>
+        <li>Corel Draw 2024</li>
+        <li>Filmora</li>
+        <li>FL Studio 12</li>
+        <li>LightBurn 1.7</li>
+        <li>SolidWorks 2025</li>
+      </ul>
+    </div>
+
+  </div>
+</div>
+  <header>
+    <!-- ESPACIO PARA TU LOGO -->
+    <h1 style="display: flex; align-items: center; justify-content: center; gap: 10px;">
+      <img src="img/rsbn.png" alt="Logo" style="height: 2.8em; width: auto;">
+      Softwares
+    </h1>
+    <p>Software Profesional • Windows • Juegos • Optimización • Reparación • Páginas Web</p>
+  </header>
+
+  <div class="container">
+    <section class="carousel-section">
+      <div class="carousel-title">Nuestros Servicios</div>
+      
+      <div class="service-windows">
+        <div class="service-window active" onclick="showService(0)">
+          <span class="service-window-icon">💿</span>
+          <h4>Venta de programas</h4>
+        </div>
+        <div class="service-window" onclick="showService(1)">
+          <span class="service-window-icon">
+            <!-- Logo de Windows (inline SVG) -->
+            <svg class="service-window-icon" width="2.5rem" height="2.5rem" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Logo de Windows">
+              <rect x="2" y="4" width="28" height="24" fill="#00A4EF"/>
+              <rect x="34" y="4" width="28" height="24" fill="#00A4EF"/>
+              <rect x="2" y="36" width="28" height="24" fill="#0078D7"/>
+              <rect x="34" y="36" width="28" height="24" fill="#0078D7"/>
+            </svg>
+          </span>
+          <h4>Activación de Windows</h4>
+        </div>
+        <div class="service-window" onclick="showService(2)">
+          <span class="service-window-icon">🎮</span>
+          <h4>Instalación de juegos</h4>
+        </div>
+        <div class="service-window" onclick="showService(3)">
+          <span class="service-window-icon">⚡</span>
+          <h4>Optimización de laptops</h4>
+        </div>
+        <div class="service-window" onclick="showService(4)">
+          <span class="service-window-icon">🖥️</span>
+          <h4>Cambio de SO</h4>
+        </div>
+        <div class="service-window" onclick="showService(5)">
+          <span class="service-window-icon">📱</span>
+          <h4>Cambio de pantalla</h4>
+        </div>
+        <div class="service-window" onclick="showService(6)">
+          <span class="service-window-icon">🌐</span>
+          <h4>Venta de páginas web</h4>
+        </div>
+      </div>
+      
+      <div class="carousel-wrapper">
+        <div class="carousel-container">
+          <div class="carousel-item active">
+            <div class="service-image">💿</div>
+            <h3>Venta de programas</h3>
+            <p>Acceso a software profesional de alta calidad sin conexión a internet.</p>
+            <div class="specifications">
+              <h4>Especificaciones:</h4>
+              <ul>
+                <li>Adobe (Photoshop, Illustrator, Premiere, etc.)</li>
+                <li>Topaz Labs (upscaling y IA)</li>
+                <li>Microsoft Office completo</li>
+                <li>Corel Draw y CorelPaint</li>
+                <li>Autodesk Maya</li>
+                <li>Adobe Acrobat Pro</li>
+                <li>Funcionamiento sin conexión a internet</li>
+                <li>Software sin IA integrada</li>
+              </ul>
+              <button class="catalog-btn" onclick="openCatalog()">
+  📂 Ver catálogo completo
+</button>
+            </div>
+
+            <!-- Botón "Catálogo" eliminado -->
+          </div>
+
+          <div class="carousel-item">
+            <div class="service-image">
+              <!-- Logo de Windows (inline SVG para mantener estilo/animación) -->
+              <svg width="96" height="96" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Logo de Windows">
+                <rect x="2" y="4" width="28" height="24" fill="#00A4EF"/>
+                <rect x="34" y="4" width="28" height="24" fill="#00A4EF"/>
+                <rect x="2" y="36" width="28" height="24" fill="#0078D7"/>
+                <rect x="34" y="36" width="28" height="24" fill="#0078D7"/>
+              </svg>
+            </div>
+            <h3>Activación de Windows</h3>
+            <p>Activación profesional y configuración correcta de tu sistema operativo.</p>
+            <div class="specifications">
+              <h4>Especificaciones:</h4>
+              <ul>
+                <li>Activación de Windows 10</li>
+                <li>Activación de Windows 11</li>
+                <li>Verificación de licencia original</li>
+                <li>Configuración de actualizaciones</li>
+                <li>Eliminación de marcas de agua</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="carousel-item">
+            <div class="service-image">🎮</div>
+            <h3>Instalación de juegos</h3>
+            <p>Instalación segura y optimizada de juegos (offline y mediante lanzadores) adaptada a tu equipo.</p>
+            <div class="specifications">
+              <h4>Especificaciones:</h4>
+              <ul>
+                <li>Instalación desde ISO, USB o ejecutable</li>
+                <li>Verificación de requisitos mínimos y recomendados</li>
+                <li>Instalación de redistribuibles: DirectX, Visual C++ y .NET</li>
+                <li>Actualización e instalación de drivers gráficos (NVIDIA / AMD / Intel)</li>
+                <li>Configuración de ajustes gráficos según tu hardware</li>
+                <li>Optimización del sistema: Modo juego, servicios en segundo plano y priorización</li>
+                <li>Instalación y configuración de lanzadores: Steam, Epic, GOG, Uplay</li>
+                <li>Soporte para mandos y controladores (Xbox, PS, joysticks)</li>
+                <li>Aplicación de parches y solución de errores comunes</li>
+                <li>Gestión de mods y comprobación de integridad (opcional)</li>
+                <li>Backup de partidas y configuraciones antes de cambios</li>
+                <li>Comprobación y ajuste de antivirus/whitelist para evitar bloqueos</li>
+                <li>Creación de accesos directos y configuraciones de inicio</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="carousel-item">
+            <div class="service-image">⚡</div>
+            <h3>Optimización de laptops</h3>
+            <p>Mejora del rendimiento y velocidad de tu laptop.</p>
+            <div class="specifications">
+              <h4>Especificaciones:</h4>
+              <ul>
+                <li>Limpieza del registro de Windows</li>
+                <li>Eliminación de programas innecesarios</li>
+                <li>Optimización de inicio automático</li>
+                <li>Limpiezade archivos temporales</li>
+                <li>Actualización de drivers</li>
+                <li>Gestión de memoria RAM</li>
+                <li>Solo para Windows</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="carousel-item">
+            <div class="service-image">🖥️</div>
+            <h3>Cambio de sistema operativo</h3>
+            <p>Instalación completa de nuevo sistema operativo según tus necesidades.</p>
+            <div class="specifications">
+              <h4>Especificaciones:</h4>
+              <ul>
+                <li>Instalación de Windows 10</li>
+                <li>Instalación de Windows 11</li>
+                <li>Instalación de Linux (múltiples distribuciones)</li>
+                <li>Respaldo de datos importantes (opcional)</li>
+                <li>Instalación de drivers esenciales</li>
+                <li>Configuración inicial del sistema</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="carousel-item">
+            <div class="service-image">📱</div>
+            <h3>Cambio de pantalla</h3>
+            <p>Reemplazo profesional de pantalla con refacciones compatibles.</p>
+            <div class="specifications">
+              <h4>Especificaciones:</h4>
+              <ul>
+                <li>Reemplazo de pantalla para celulares</li>
+                <li>Refacciones compatibles y de calidad</li>
+                <li>Trabajo profesional y cuidadoso</li>
+                <li>Prueba de funcionamiento completa</li>
+                <li>No hay garantía sobre las pantallas; la garantía cubre únicamente el trabajo realizado</li>
+                <li>Sin daño a otros componentes</li>
+              </ul>
+            </div>
+          </div>
+          <div class="carousel-item">
+            <div class="service-image">🌐</div>
+            <h3>Venta de páginas web</h3>
+            <p>Diseño y desarrollo de sitios web adaptativos y funcionales para empresas y emprendedores.</p>
+            <div class="specifications">
+              <h4>Especificaciones:</h4>
+              <ul>
+                <li>Diseño responsive (adaptado a móviles y desktop)</li>
+                <li>Páginas informativas, landing pages y portafolios (solo informativas; no tiendas en línea)</li>
+                <li>Instalación y configuración de CMS (WordPress)</li>
+                <li>Dominio, hosting y configuración inicial</li>
+                <li>Certificado SSL y seguridad básica</li>
+                <li>Formularios de contacto y suscripción</li>
+                <li>Optimización de velocidad y SEO básico</li>
+                <li>Mantenimiento y soporte técnico (opcional)</li>
+                <li>Respaldo de contenidos (opcional)</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="cta">
+      <h2>Contáctame directamente</h2>
+      <div class="cta-content">
+        <div class="cta-text">
+          <p>Escanea el código QR o escríbeme por WhatsApp</p>
+          <!-- CAMBIA EL NÚMERO POR EL TUYO -->
+          <a href="https://wa.me/8140485302" target="_blank">Contactar por WhatsApp</a>
+        </div>
+        <div class="cta-qr">
+          <img src="img/QR.jpg" alt="Código QR de WhatsApp" />
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <footer>
+    © 2026 - R Softwares | Atención personalizada
+    <button class="terms-btn" onclick="openTerms()">
+  Términos y Condiciones
+</button>
+  </footer>
+
+  <script>
+    let currentService = 0;
+
+    function showService(index) {
+      currentService = index;
+      
+      // Ocultar todos los servicios
+      const items = document.querySelectorAll('.carousel-item');
+      items.forEach(item => item.classList.remove('active'));
+      
+      // Activar la ventana correcta
+      const windows = document.querySelectorAll('.service-window');
+      windows.forEach(win => win.classList.remove('active'));
+      
+      // Mostrar el servicio seleccionado
+      items[index].classList.add('active');
+      windows[index].classList.add('active');
+      
+      // Scroll automático al contenido
+      const carouselWrapper = document.querySelector('.carousel-wrapper');
+      if (carouselWrapper) {
+        setTimeout(() => {
+          carouselWrapper.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }, 100);
+      }
+    }
+function openCatalog() {
+  document.getElementById("catalogModal").classList.add("active");
+}
+
+function closeCatalog() {
+  document.getElementById("catalogModal").classList.remove("active");
+}
+
+function showCatalog(id) {
+  // Ocultar todas las secciones
+  document.querySelectorAll('.catalog-section')
+    .forEach(sec => sec.classList.remove('active'));
+
+  // Quitar activo de botones
+  document.querySelectorAll('.catalog-nav button')
+    .forEach(btn => btn.classList.remove('active'));
+
+  // Mostrar sección seleccionada
+  const section = document.getElementById(id);
+  section.classList.add('active');
+
+  // Marcar botón activo
+  event.target.classList.add('active');
+
+  // 👉 SCROLL SUAVE A LOS PROGRAMAS
+  setTimeout(() => {
+    section.scrollIntoView({
+      behavior: 'smooth',
+      block: 'start'
+    });
+  }, 100);
+}
+function openTerms() {
+  document.getElementById("termsModal").style.display = "flex";
+}
+
+function closeTerms() {
+  document.getElementById("termsModal").style.display = "none";
+}
+  </script>
+<!-- TÉRMINOS Y CONDICIONES -->
+<div id="termsModal" class="modal">
+  <div class="modal-content">
+    <span class="close" onclick="closeTerms()">×</span>
+
+    <h2>Términos y Condiciones</h2>
+
+    <h3>1. Aceptación de los términos</h3>
+    <p>
+      Al acceder y utilizar este sitio web, el usuario acepta cumplir con los
+      presentes Términos y Condiciones. Si el usuario no está de acuerdo con
+      alguno de estos términos, deberá abstenerse de utilizar el sitio.
+    </p>
+
+    <h3>2. Uso del sitio web</h3>
+    <p>
+      Este sitio tiene como finalidad ofrecer información, venta y distribución
+      de programas y servicios digitales. El usuario se compromete a utilizar
+      el sitio de manera responsable, lícita y respetuosa.
+    </p>
+
+    <h3>3. Productos y servicios</h3>
+    <p>
+      Los productos ofrecidos en este sitio son software y servicios digitales.
+      Al tratarse de productos digitales, una vez realizada la entrega o
+      activación, no se aceptan devoluciones ni reembolsos.
+    </p>
+
+    <h3>4. Entrega y activación</h3>
+    <p>
+      La entrega de los productos se realiza de manera digital, mediante enlaces,
+      archivos o comunicación directa por WhatsApp. El tiempo de entrega puede
+      variar dependiendo del producto.
+    </p>
+
+    <h3>5. Responsabilidad del usuario</h3>
+    <p>
+      El usuario es responsable del uso correcto del software adquirido. El
+      propietario del sitio no se hace responsable por daños derivados del mal
+      uso, incompatibilidades del sistema o configuraciones incorrectas.
+    </p>
+
+    <h3>6. Garantía y soporte</h3>
+    <p>
+      El soporte técnico se brinda únicamente bajo las condiciones acordadas
+      previamente con el cliente. No se garantiza soporte ilimitado.
+    </p>
+
+    <h3>7. Propiedad intelectual</h3>
+    <p>
+      Las marcas y nombres comerciales mencionados pertenecen a sus respectivos
+      propietarios y se utilizan únicamente con fines informativos.
+    </p>
+
+    <h3>8. Modificaciones</h3>
+    <p>
+      El propietario del sitio se reserva el derecho de modificar estos términos
+      en cualquier momento sin previo aviso.
+    </p>
+
+    <h3>9. Contacto</h3>
+    <p>
+      Para cualquier duda o aclaración, el usuario puede comunicarse mediante
+      WhatsApp u otros medios indicados en el sitio.
+    </p>
+  </div>
+</div>
+</body>
+</html>
